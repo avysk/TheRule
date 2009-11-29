@@ -1,4 +1,4 @@
-let iter = print_string "Number of iterations [500]: "; 
+let iter = print_string "Number of iterations [500]: " ; 
            try read_int ()
            with Failure f -> 500
 
@@ -17,19 +17,21 @@ let rule a b c =
   | Full,  Empty, Empty -> Full  
   | Full,  Empty, Full -> Empty 
   | Full,  Full,  Empty -> Full  
-  | Full,  Full,  Full -> Empty
+  | Full,  Full,  Full -> Empty ;;
+
+exception ProgrammingError of int
 
 let rec next_gen prev state =
   match state with
   | c :: [] -> (rule prev c Empty) :: (rule c Empty Empty) :: []
   | c :: h :: tail ->
       (rule prev c h) :: (next_gen c (h :: tail))
-  | _ -> [] (* impossible *)
+  | _ -> raise (ProgrammingError 0) (* impossible *)
 
 let make_gen start =
   match start with
   | head :: tail -> (rule Empty Empty head) :: (next_gen Empty start)
-  | _ -> [] (* impossible *)
+  | _ -> raise (ProgrammingError 1) (* impossible *)
 
 let rec show_gen line x y =
   match line with
