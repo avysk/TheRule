@@ -1,5 +1,9 @@
 (* The number of iterations *)
-let iter = 800
+(* let iter = 800 *)
+
+let iter = print_string "Number of iterations [500]: "; 
+           try read_int ()
+           with Failure f -> 500
 
 let _ = 
   let width = 2 * iter - 1 and height = iter in
@@ -47,6 +51,4 @@ let rec next_generation count start =
   if (count > 1) then next_generation (count - 1) (make_gen start) else ()
 
 let _ = next_generation iter [Full]
-
-let _ = print_string "Press enter in console to exit"; print_newline ()
-let _ = read_line ()
+let _ = Graphics.read_key ()
