@@ -36,12 +36,11 @@ let rec next_generation count start =
   let _ = show_gen start count count in
     if (count = 1) then () else next_generation (count - 1) (make_gen start)
 
-
-
 let _ = 
-  let iter = print_string "Number of iterations [500]: " ; 
-             try read_int ()
-             with Failure f -> 500 in
+  let iter = 
+    let _ = print_string "Number of iterations [500]: " in
+      try read_int ()
+      with Failure f -> 500 in
   let _ = 
     let width = string_of_int (2 * iter - 1) and height = string_of_int iter in
       Graphics.open_graph (" " ^ width ^ "x" ^ height) in
