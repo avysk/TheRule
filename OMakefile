@@ -1,0 +1,23 @@
+.PHONY: clean
+
+# .SUBDIRS:
+
+USE_OCAMLFIND = true
+OCAMLPACKS[] = graphics
+if $(not $(OCAMLFIND_EXISTS))
+   eprintln(This project requires ocamlfind, but is was not found.)
+   eprintln(You need to install ocamlfind and run "omake --configure".)
+   eprintln(If you are using Macports, install caml-findlib port.)
+   exit 1
+
+# OCAMLINCLUDES +=
+
+FILES[] = therule
+
+PROGRAM = therule
+
+.DEFAULT: $(OCamlProgram $(PROGRAM), $(FILES))
+clean:
+	rm -f \
+		$(filter-proper-targets $(glob $(addsuffix .*, $(FILES)))) \
+		$(PROGRAM).run $(PROGRAM).opt $(PROGRAM)
