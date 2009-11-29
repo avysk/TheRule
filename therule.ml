@@ -19,14 +19,16 @@ let rule a b c =
   | Full,  Full,  Empty -> Full  
   | Full,  Full,  Full -> Empty
 
-let rec next_gen prev cur tail =
-  match tail with
-  | [] -> (rule prev cur Empty) :: (rule cur Empty Empty) :: []
-  | head :: new_tail -> (rule prev cur head) :: (next_gen cur head new_tail)
+let rec next_gen prev state =
+  match state with
+  | c :: [] -> (rule prev c Empty) :: (rule c Empty Empty) :: []
+  | c :: h :: tail ->
+      (rule prev c h) :: (next_gen c (h :: tail))
+  | _ -> [] (* impossible *)
 
 let make_gen start =
   match start with
-  | head :: tail -> (rule Empty Empty head) :: (next_gen Empty head tail)
+  | head :: tail -> (rule Empty Empty head) :: (next_gen Empty start)
   | _ -> [] (* impossible *)
 
 let rec show_gen line x y =
