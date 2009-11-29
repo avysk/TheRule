@@ -5,7 +5,7 @@
 USE_OCAMLFIND = true
 OCAMLPACKS[] = graphics
 if $(not $(OCAMLFIND_EXISTS))
-   eprintln(This project requires ocamlfind, but is was not found.)
+   eprintln(This project requires ocamlfind, but it was not found.)
    eprintln(You need to install ocamlfind and run "omake --configure".)
    eprintln(If you are using Macports, install caml-findlib port.)
    exit 1
