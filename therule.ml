@@ -2,13 +2,13 @@ type cell = Empty | Full
 
 let rule a b c =
   match (a, b, c) with
-  | Empty, Empty, Empty -> Empty 
-  | Empty, Empty, Full -> Full  
-  | Empty, Full,  Empty -> Full  
-  | Empty, Full,  Full -> Empty 
-  | Full,  Empty, Empty -> Full  
-  | Full,  Empty, Full -> Empty 
-  | Full,  Full,  Empty -> Full  
+  | Empty, Empty, Empty -> Empty
+  | Empty, Empty, Full -> Full
+  | Empty, Full,  Empty -> Full
+  | Empty, Full,  Full -> Empty
+  | Full,  Empty, Empty -> Full
+  | Full,  Empty, Full -> Empty
+  | Full,  Full,  Empty -> Full
   | Full,  Full,  Full -> Empty
 
 let rec next_gen prev = function
@@ -33,12 +33,12 @@ let rec next_generation count start =
   let _ = show_gen start count count in
     if (count = 1) then () else next_generation (count - 1) (make_gen start)
 
-let _ = 
-  let iter = 
+let _ =
+  let iter =
     let _ = print_string "Number of iterations [500]: " in
       try read_int ()
       with Failure f -> 500 in
-  let _ = 
+  let _ =
     let width = string_of_int (2 * iter - 1) and height = string_of_int iter in
       Graphics.open_graph (" " ^ width ^ "x" ^ height) in
     next_generation iter [Full]
