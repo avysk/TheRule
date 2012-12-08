@@ -15,32 +15,36 @@ let rec next_gen prev = function
   | c :: [] -> (rule prev c Empty) :: (rule c Empty Empty) :: []
   | c :: h :: tail ->
       (rule prev c h) :: (next_gen c (h :: tail))
-  | _ -> raise (Failure "Impossible match at 0, programming error") (* impossible *)
+  | _ -> failwith "Internal error"
 
-let make_gen start =
-  match start with
-  | head :: tail -> (rule Empty Empty head) :: (next_gen Empty start)
-  | _ -> raise (Failure "Impossible match at 1, programming error") (* impossible *)
+let make_gen = function
+  | head :: tail as input -> (rule Empty Empty head) :: (next_gen Empty input)
+  | _ -> failwith "Internal error"
 
 let rec show_gen line x y =
   match line with
   | head :: tail ->
-      let _ = if (head = Full) then Graphics.plot x y else () in
-        show_gen tail (x + 1) y
+      if (head = Full) then Graphics.plot x y else () ;
+      show_gen tail (x + 1) y
   | _ -> ()
 
 let rec next_generation count start =
-  let _ = show_gen start count count in
-    if (count = 1) then () else next_generation (count - 1) (make_gen start)
+  show_gen start count count ;
+  if (count = 1) then ()
+  else next_generation (count - 1) (make_gen start)
 
-let _ =
+let main () =
   let iter =
-    let _ = print_string "Number of iterations [500]: " in
-      try read_int ()
-      with Failure f -> 500 in
-  let _ =
-    let width = string_of_int (2 * iter - 1) and height = string_of_int iter in
-      Graphics.open_graph (" " ^ width ^ "x" ^ height) in
-    next_generation iter [Full]
+    try
+      print_string "Number of iterations [500]: ";
+      read_int ()
+    with Failure _ -> 500 in
+  let width = string_of_int (2 * iter - 1) in
+  let height = string_of_int iter in
+  Graphics.open_graph (" " ^ width ^ "x" ^ height);
+  next_generation iter [Full];
+  Graphics.read_key ()
 
-let _ = Graphics.read_key ()
+;;
+
+main ()
