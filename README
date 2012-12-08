@@ -1,0 +1,3 @@
+This program draws the evolution of one-dimensional binary cellular automaton,
+known as "Rule 86" (which is a mirror image of "Rule 30", see
+http://en.wikipedia.org/wiki/Rule_30).
